@@ -40,30 +40,30 @@ const Landing = () => {
           <span className="text-sm font-medium tracking-wide text-white/80">v1.0 Now Live</span>
         </div>
         
-        <h1 className="text-6xl sm:text-8xl font-bold tracking-tight mb-8 bg-gradient-to-br from-white via-purple-100 to-white/40 bg-clip-text text-transparent">
+        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight mb-6 sm:mb-8 bg-gradient-to-br from-white via-purple-100 to-white/40 bg-clip-text text-transparent leading-tight sm:leading-none">
           Welcome to
-          <br /> Hello Loaders
+          <br className="hidden sm:block" /> Hello Loaders
         </h1>
         
-        <p className="text-xl sm:text-2xl text-white/60 mb-8 leading-relaxed max-w-2xl mx-auto">
+        <p className="text-lg sm:text-2xl text-white/60 mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto px-4 sm:px-0">
           A premium open-source collection of {loaders.length} handcrafted SVG loading animations from around the world. Elevate your project's first impression.
         </p>
         
-        <div className="flex items-center justify-center gap-2 text-white/40 font-medium mb-12 bg-white/5 border border-white/10 w-fit mx-auto px-4 py-2 rounded-full text-sm">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-400"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-          No npm commands required. Just copy, paste, and run.
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-white/40 font-medium mb-10 sm:mb-12 bg-white/5 border border-white/10 w-full sm:w-fit mx-auto px-4 py-3 sm:py-2 rounded-2xl sm:rounded-full text-xs sm:text-sm text-center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-400 shrink-0"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+          <span>No npm commands required. Just copy, paste, and run.</span>
         </div>
         
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto px-4 sm:px-0">
           <Link 
             to="/menu"
-            className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-purple-50 transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] hover:-translate-y-1 flex items-center gap-2"
+            className="w-full sm:w-auto justify-center px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-purple-50 transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] hover:-translate-y-1 flex items-center gap-2"
           >
             Explore Loaders <span className="text-xl leading-none transition-transform group-hover:translate-x-1">→</span>
           </Link>
           <Link 
             to="/docs"
-            className="px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-all backdrop-blur-md flex items-center gap-2 hover:-translate-y-1"
+            className="w-full sm:w-auto justify-center px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-all backdrop-blur-md flex items-center gap-2 hover:-translate-y-1"
           >
             Read Docs
           </Link>
