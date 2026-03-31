@@ -1,82 +1,32 @@
+import { useState } from "react";
 import { createBrowserRouter, RouterProvider, Link } from "react-router";
 
-import ArabicLoader from "./loaders/ArabicLoader";
-import BulgarianLoader from "./loaders/BulgarianLoader";
-import CatlanLoader from "./loaders/CatlanLoader";
-import ChineseHongKongLoader from "./loaders/ChineseHongKongLoader";
-import ChineseSimplifiedLoader from "./loaders/ChineseSimplifiedLoader";
-import ChineseTraditionalLoader from "./loaders/ChineseTraditionalLoader";
-import CroatianLoader from "./loaders/CroatianLoader";
-import CzechLoader from "./loaders/CzechLoader";
-import DanishLoader from "./loaders/DanishLoader";
-import DutchLoader from "./loaders/DutchLoader";
-import EnglishLoader from "./loaders/EnglishLoader";
-import FinnishLoader from "./loaders/FinnishLoader";
-import FrenchLoader from "./loaders/FrenchLoader";
-import GermanLoader from "./loaders/GermanLoader";
-import GreekLoader from "./loaders/GreekLoader";
-import HebrewLoader from "./loaders/HebrewLoader";
-import HindiLoader from "./loaders/HindiLoader";
-import HungarianLoader from "./loaders/HungarianLoader";
-import IndoneshianLoader from "./loaders/IndoneshianLoader";
-import ItalianLoader from "./loaders/ItalianLoader";
-import JapaneseLoader from "./loaders/JapaneseLoader";
-import KazakhLoader from "./loaders/KazakhLoader";
-import KoreanLoader from "./loaders/KoreanLoader";
-import MalayLoader from "./loaders/MalayLoader";
-import NorwegianBokmaiLoader from "./loaders/NorwegianBokmaiLoader";
-import PolishLoader from "./loaders/PolishLoader";
-import PortugeseBrazilLoader from "./loaders/PortugeseBrazilLoader";
-import PortugeseLoader from "./loaders/PortugeseLoader";
-import RomanianLoader from "./loaders/RomanianLoader";
-import RussianLoader from "./loaders/RussianLoader";
-import SlovakLoader from "./loaders/SlovakLoader";
-import SpanishLoader from "./loaders/SpanishLoader";
-import SwedishLoader from "./loaders/SwedishLoader";
-import ThaiLoader from "./loaders/ThaiLoader";
-import TurkishLoader from "./loaders/TurkishLoader";
-import UkranianLoader from "./loaders/UkranianLoader";
-import VietnameseLoader from "./loaders/VietnameseLoader";
+// Dynamically import all loader modules (filtering out standalone text demos)
+const loaderModules = import.meta.glob(['./loaders/*.tsx', '!./loaders/Vathsavv56Loader.tsx', '!./loaders/LuffyLoader.tsx'], { eager: true }) as Record<string, { default: React.ComponentType }>;
 
-const loaders = [
-  { name: "Arabic", path: "arabic", element: <ArabicLoader /> },
-  { name: "Bulgarian", path: "bulgarian", element: <BulgarianLoader /> },
-  { name: "Catalan", path: "catlan", element: <CatlanLoader /> },
-  { name: "Chinese (Hong Kong)", path: "chinese-hong-kong", element: <ChineseHongKongLoader /> },
-  { name: "Chinese (Simplified)", path: "chinese-simplified", element: <ChineseSimplifiedLoader /> },
-  { name: "Chinese (Traditional)", path: "chinese-traditional", element: <ChineseTraditionalLoader /> },
-  { name: "Croatian", path: "croatian", element: <CroatianLoader /> },
-  { name: "Czech", path: "czech", element: <CzechLoader /> },
-  { name: "Danish", path: "danish", element: <DanishLoader /> },
-  { name: "Dutch", path: "dutch", element: <DutchLoader /> },
-  { name: "English", path: "english", element: <EnglishLoader /> },
-  { name: "Finnish", path: "finnish", element: <FinnishLoader /> },
-  { name: "French", path: "french", element: <FrenchLoader /> },
-  { name: "German", path: "german", element: <GermanLoader /> },
-  { name: "Greek", path: "greek", element: <GreekLoader /> },
-  { name: "Hebrew", path: "hebrew", element: <HebrewLoader /> },
-  { name: "Hindi", path: "hindi", element: <HindiLoader /> },
-  { name: "Hungarian", path: "hungarian", element: <HungarianLoader /> },
-  { name: "Indonesian", path: "indoneshian", element: <IndoneshianLoader /> },
-  { name: "Italian", path: "italian", element: <ItalianLoader /> },
-  { name: "Japanese", path: "japanese", element: <JapaneseLoader /> },
-  { name: "Kazakh", path: "kazakh", element: <KazakhLoader /> },
-  { name: "Korean", path: "korean", element: <KoreanLoader /> },
-  { name: "Malay", path: "malay", element: <MalayLoader /> },
-  { name: "Norwegian (Bokmål)", path: "norwegian-bokmai", element: <NorwegianBokmaiLoader /> },
-  { name: "Polish", path: "polish", element: <PolishLoader /> },
-  { name: "Portuguese (Brazil)", path: "portugese-brazil", element: <PortugeseBrazilLoader /> },
-  { name: "Portuguese", path: "portugese", element: <PortugeseLoader /> },
-  { name: "Romanian", path: "romanian", element: <RomanianLoader /> },
-  { name: "Russian", path: "russian", element: <RussianLoader /> },
-  { name: "Slovak", path: "slovak", element: <SlovakLoader /> },
-  { name: "Spanish", path: "spanish", element: <SpanishLoader /> },
-  { name: "Swedish", path: "swedish", element: <SwedishLoader /> },
-  { name: "Thai", path: "thai", element: <ThaiLoader /> },
-  { name: "Turkish", path: "turkish", element: <TurkishLoader /> },
-  { name: "Ukrainian", path: "ukranian", element: <UkranianLoader /> },
-  { name: "Vietnamese", path: "vietnamese", element: <VietnameseLoader /> },
-];
+// Dynamically import all raw source codes of the loaders
+const loaderSources = import.meta.glob(['./loaders/*.tsx', '!./loaders/Vathsavv56Loader.tsx', '!./loaders/LuffyLoader.tsx'], { eager: true, query: '?raw', import: 'default' }) as Record<string, string>;
+
+// Transform the raw paths into an array of route objects
+const loaders = Object.keys(loaderModules).map((filePath) => {
+  const fileName = filePath.split('/').pop()?.replace('.tsx', '') || '';
+  // Convert PascalCase to Readable Name Note: ChineseHongKongLoader -> Chinese Hong Kong
+  const name = fileName
+    .replace('Loader', '')
+    .replace(/([a-z])([A-Z])/g, '$1 $2')
+    .trim() || fileName;
+    
+  // URL slug
+  const path = fileName.replace('Loader', '').toLowerCase();
+
+  return {
+    id: fileName,
+    name,
+    path,
+    Component: loaderModules[filePath].default,
+    code: loaderSources[filePath]
+  };
+}).sort((a, b) => a.name.localeCompare(b.name));
 
 const Landing = () => {
   return (
@@ -95,9 +45,14 @@ const Landing = () => {
           <br /> Hello Loaders
         </h1>
         
-        <p className="text-xl sm:text-2xl text-white/60 mb-12 leading-relaxed max-w-2xl mx-auto">
-          A premium open-source collection of 37 handcrafted SVG loading animations from around the world. Elevate your project's first impression.
+        <p className="text-xl sm:text-2xl text-white/60 mb-8 leading-relaxed max-w-2xl mx-auto">
+          A premium open-source collection of {loaders.length} handcrafted SVG loading animations from around the world. Elevate your project's first impression.
         </p>
+        
+        <div className="flex items-center justify-center gap-2 text-white/40 font-medium mb-12 bg-white/5 border border-white/10 w-fit mx-auto px-4 py-2 rounded-full text-sm">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-400"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+          No npm commands required. Just copy, paste, and run.
+        </div>
         
         <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
           <Link 
@@ -122,7 +77,7 @@ const Docs = () => {
   return (
     <div className="min-h-screen bg-[#08060d] text-white p-6 sm:p-12 font-manrope selection:bg-white/20">
       <div className="max-w-4xl mx-auto">
-        <header className="mb-12 border-b border-white/10 pb-8 flex sm:flex-row flex-col items-start sm:items-center justify-between gap-6">
+        <header className="mb-12 border-b border-white/10 pb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
             <h1 className="text-4xl font-bold tracking-tight mb-2">Documentation</h1>
             <p className="text-white/60">How to integrate Hello Loaders into your projects.</p>
@@ -162,18 +117,32 @@ const Docs = () => {
           <div>
             <h2 className="text-2xl font-semibold mb-6 text-purple-200 flex items-center gap-3">
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-500/20 text-purple-300 text-sm">2</span>
-              Customization
+              Dependencies
             </h2>
-            <div className="p-8 bg-white/5 border border-white/10 rounded-2xl shadow-xl space-y-4 text-white/70 leading-relaxed">
-              <p>
-                To adjust timing, modify the <code className="bg-white/10 px-1.5 py-0.5 rounded text-white font-jmono text-sm">totalDuration</code> constant uniformly defined inside the <code>useEffect</code> hook of any loader file.
-              </p>
-              <p>
-                Colors mapping can easily be altered directly via the inline Tailwind classes like <code className="bg-white/10 px-1.5 py-0.5 rounded text-white font-jmono text-sm">bg-white</code> and <code className="bg-white/10 px-1.5 py-0.5 rounded text-white font-jmono text-sm">text-white</code>, mapped naturally in the JSX return body.
-              </p>
-              <p className="pt-4 border-t border-white/10">
-                You can browse styling variants in our <Link to="/menu" className="text-purple-400 hover:text-purple-300 underline underline-offset-4">Interactive Menu</Link>.
-              </p>
+            <div className="p-8 bg-white/5 border border-white/10 rounded-2xl shadow-xl">
+               <ul className="space-y-6 text-white/70">
+                 <li className="flex items-start gap-4">
+                   <div className="mt-1.5 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.8)]"></div>
+                   <div>
+                     <strong className="text-white block font-medium mb-1 text-lg">React</strong>
+                     <p className="text-sm leading-relaxed">Built for React 18+ environments using native hooks (<code>useState</code>, <code>useEffect</code>, <code>useRef</code>).</p>
+                   </div>
+                 </li>
+                 <li className="flex items-start gap-4">
+                   <div className="mt-1.5 w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]"></div>
+                   <div>
+                     <strong className="text-white block font-medium mb-1 text-lg">Tailwind CSS</strong>
+                     <p className="text-sm leading-relaxed">Styled entirely with utility classes. Built and tested with Tailwind v4, but backwards compatible directly with Tailwind v3.</p>
+                   </div>
+                 </li>
+                 <li className="flex items-start gap-4">
+                   <div className="mt-1.5 w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(192,132,252,0.8)]"></div>
+                   <div>
+                     <strong className="text-white block font-medium mb-1 text-lg">Zero Animation Libraries</strong>
+                     <p className="text-sm leading-relaxed">No <code>framer-motion</code>, <code>gsap</code>, or other bloated animation libraries needed. All animations use vanilla CSS keyframes and <code>requestAnimationFrame</code> for maximum performance and minimum bundle size.</p>
+                   </div>
+                 </li>
+               </ul>
             </div>
           </div>
         </section>
@@ -215,6 +184,96 @@ const Menu = () => {
   );
 };
 
+const LoaderShowcase = ({ loader }: { loader: typeof loaders[0] }) => {
+  const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
+
+  return (
+    <div className="min-h-screen bg-[#08060d] text-white p-6 sm:p-12 font-manrope selection:bg-white/20">
+      <div className="max-w-5xl mx-auto space-y-8">
+        {/* Showcase Header */}
+        <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-white/10">
+          <div className="space-y-4">
+            <Link 
+              to="/menu" 
+              className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium"
+            >
+              <span>←</span> Back to Directory
+            </Link>
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">{loader.name} Loader</h1>
+            <p className="text-white/60">A pristine handwritten SVG loading animation component.</p>
+          </div>
+          
+          <div className="flex bg-white/5 p-1 rounded-lg border border-white/10 mt-4 sm:mt-0">
+            <button 
+              onClick={() => setActiveTab('preview')}
+              className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+                activeTab === 'preview' 
+                  ? 'bg-white/10 text-white shadow-sm' 
+                  : 'text-white/50 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              Preview
+            </button>
+            <button 
+              onClick={() => setActiveTab('code')}
+              className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+                activeTab === 'code' 
+                  ? 'bg-white/10 text-white shadow-sm' 
+                  : 'text-white/50 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              Code
+            </button>
+          </div>
+        </header>
+
+        {/* Live Preview / Code Box */}
+        <div className="bg-[#0f0c16] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative h-[600px]">
+          {activeTab === 'preview' ? (
+            <div className="h-full w-full absolute inset-0 [&>div]:!h-full [&>div]:!w-full [&>div]:!bg-transparent [&>div]:!m-0 [&>div]:!p-0 [&>div]:!min-h-0">
+              <loader.Component />
+            </div>
+          ) : (
+            <div className="h-full w-full absolute inset-0 overflow-y-auto overflow-x-auto bg-[#1e1e1e] scrollbar-thin scrollbar-thumb-white/10">
+              <div className="sticky top-0 right-0 w-full flex justify-end p-4 bg-gradient-to-b from-[#1e1e1e] to-transparent z-10 pointer-events-none">
+                <button 
+                  className="pointer-events-auto px-4 py-2 bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center gap-2 rounded-lg text-xs font-jmono border border-white/10 backdrop-blur-md shadow-xl"
+                  onClick={() => navigator.clipboard.writeText(loader.code)}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  Copy Code
+                </button>
+              </div>
+              <pre className="m-0 px-8 pb-8 pt-4 bg-transparent text-[0.875rem] leading-[1.5] font-jmono text-white/80 whitespace-pre">
+                <code>{loader.code}</code>
+              </pre>
+            </div>
+          )}
+        </div>
+
+        {/* Info Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+          <div className="p-6 bg-white/5 border border-white/10 rounded-xl space-y-2">
+            <p className="text-white/40 text-sm font-medium">Component Path</p>
+            <p className="text-purple-200 font-jmono text-sm break-all">src/loaders/{loader.id}.tsx</p>
+          </div>
+          <div className="p-6 bg-white/5 border border-white/10 rounded-xl space-y-3">
+            <p className="text-white/40 text-sm font-medium">Dependencies</p>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2.5 py-1 bg-blue-500/10 text-blue-300 rounded-md text-xs font-jmono border border-blue-500/20 shadow-sm">react</span>
+              <span className="px-2.5 py-1 bg-cyan-500/10 text-cyan-300 rounded-md text-xs font-jmono border border-cyan-500/20 shadow-sm">tailwindcss</span>
+            </div>
+            <p className="text-white/40 text-xs mt-3 border-t border-white/5 pt-3 leading-relaxed">
+              Plug and play. Zero external animation libraries (no framer-motion/gsap).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Map routes dynamically
 const router = createBrowserRouter([
   {
     path: "/",
@@ -230,17 +289,7 @@ const router = createBrowserRouter([
   },
   ...loaders.map((loader) => ({
     path: `/${loader.path}`,
-    element: (
-      <div className="relative">
-        <Link 
-          to="/menu" 
-          className="absolute top-6 left-6 z-50 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg backdrop-blur-md transition-all text-sm font-medium font-manrope flex items-center gap-2 border border-white/10 hover:border-white/20"
-        >
-          <span>←</span> Back to Menu
-        </Link>
-        {loader.element}
-      </div>
-    ),
+    element: <LoaderShowcase loader={loader} />,
   })),
 ]);
 

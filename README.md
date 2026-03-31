@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# Hello Loaders
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium open-source collection of beautifully handwritten SVG loading animations mapping languages from around the world. Perfect for giving your React + Tailwind CSS project a memorable first impression.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Zero Dependencies**: You don't need any external animation libraries like Framer Motion, GSAP, or Spring. 
+- **Lightweight Native Animations**: Handcrafted heavily optimized native SVGs using `requestAnimationFrame` and CSS keyframes.
+- **Copy & Paste Approach**: No `npm install` needed. You just select the loader you want, copy the raw code, drop it into your component folder, and you're good to go.
+- **Fully Customizable**: Built with native SVG logic and Tailwind CSS utility classes, making it trivial to change colors, stroke widths, boundaries, and easing timing variables.
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Check out the Loaders directory from the showcase app.
+2. Select your desired loader and switch to the **Code** tab.
+3. Click **Copy Code**.
+4. Create a new `.tsx` file in your own project (e.g., `components/Loaders/EnglishLoader.tsx`) and paste the code.
 
-## Expanding the ESLint configuration
+That's it!
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+```tsx
+import EnglishLoader from './components/Loaders/EnglishLoader';
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+function App() {
+  return (
+    <div className="App">
+       <EnglishLoader />
+    </div>
+  );
+}
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Running the Showcase locally
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+The repository includes a gorgeous frontend to preview and explore all loaders dynamically.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Install dependencies
+bun install
+
+# Start development server
+bun run dev
 ```
+
+## Deployment
+
+This app is configured to be seamlessly deployed to Vercel. 
+The SPA routing relies on `vercel.json` logic using rewrites to ensure direct paths (like `/docs` or `/english`) don't throw 404s and pass efficiently to the underlying React Router hierarchy.
