@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { createBrowserRouter, RouterProvider, Link } from "react-router";
 
 // Dynamically import all loader modules (filtering out standalone text demos)
@@ -44,6 +44,106 @@ const loaders = Object.keys(loaderModules)
     };
   })
   .sort((a, b) => a.name.localeCompare(b.name));
+
+const TSX_KEYWORDS = new Set([
+  "import",
+  "from",
+  "export",
+  "default",
+  "function",
+  "return",
+  "const",
+  "let",
+  "var",
+  "if",
+  "else",
+  "for",
+  "while",
+  "switch",
+  "case",
+  "break",
+  "continue",
+  "new",
+  "class",
+  "extends",
+  "type",
+  "interface",
+  "as",
+  "async",
+  "await",
+]);
+
+const TSX_TOKEN_REGEX =
+  /(\/\/.*$|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|`(?:\\.|[^`\\])*`|\b[A-Za-z_][A-Za-z0-9_]*\b|<\/?[A-Za-z][A-Za-z0-9]*|[{}()[\].,;<>]|\b\d+(?:\.\d+)?\b)/g;
+
+const renderHighlightedLine = (
+  line: string,
+  lineIndex: number,
+): ReactNode[] => {
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let tokenIndex = 0;
+
+  for (const match of line.matchAll(TSX_TOKEN_REGEX)) {
+    const token = match[0];
+    const start = match.index ?? 0;
+
+    if (start > lastIndex) {
+      nodes.push(
+        <span
+          key={`${lineIndex}-plain-${tokenIndex}`}
+          className="text-white/80"
+        >
+          {line.slice(lastIndex, start)}
+        </span>,
+      );
+      tokenIndex += 1;
+    }
+
+    let className = "text-white/80";
+
+    if (token.startsWith("//")) {
+      className = "text-white/40 italic";
+    } else if (
+      (token.startsWith('"') && token.endsWith('"')) ||
+      (token.startsWith("'") && token.endsWith("'")) ||
+      (token.startsWith("`") && token.endsWith("`"))
+    ) {
+      className = "text-green-300";
+    } else if (TSX_KEYWORDS.has(token)) {
+      className = "text-pink-400";
+    } else if (/^<\/?[A-Za-z][A-Za-z0-9]*$/.test(token)) {
+      className = "text-purple-300";
+    } else if (/^\d+(?:\.\d+)?$/.test(token)) {
+      className = "text-blue-300";
+    } else if (/^[{}()[\].,;<>]$/.test(token)) {
+      className = "text-white/50";
+    }
+
+    nodes.push(
+      <span key={`${lineIndex}-token-${tokenIndex}`} className={className}>
+        {token}
+      </span>,
+    );
+
+    tokenIndex += 1;
+    lastIndex = start + token.length;
+  }
+
+  if (lastIndex < line.length) {
+    nodes.push(
+      <span key={`${lineIndex}-tail`} className="text-white/80">
+        {line.slice(lastIndex)}
+      </span>,
+    );
+  }
+
+  if (nodes.length === 0) {
+    nodes.push(<span key={`${lineIndex}-empty`}>{"\u00A0"}</span>);
+  }
+
+  return nodes;
+};
 
 const Landing = () => {
   return (
@@ -401,7 +501,16 @@ const LoaderShowcase = ({ loader }: { loader: (typeof loaders)[0] }) => {
                 </button>
               </div>
               <pre className="m-0 px-8 pb-8 pt-4 bg-transparent text-[0.875rem] leading-[1.5] font-jmono text-white/80 whitespace-pre">
-                <code>{loader.code}</code>
+                <code className="block">
+                  {loader.code.split("\n").map((line, lineIndex) => (
+                    <span
+                      key={`line-${lineIndex}`}
+                      className="block whitespace-pre"
+                    >
+                      {renderHighlightedLine(line, lineIndex)}
+                    </span>
+                  ))}
+                </code>
               </pre>
             </div>
           )}
