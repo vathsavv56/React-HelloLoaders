@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 import { createBrowserRouter, RouterProvider, Link } from "react-router";
+import { ArrowRight, Check, Code2, ExternalLink, Layers3 } from "lucide-react";
 
 // Dynamically import all loader modules (filtering out standalone text demos)
 const loaderModules = import.meta.glob(
@@ -147,93 +148,87 @@ const renderHighlightedLine = (
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-[#08060d] text-white flex flex-col items-center justify-center font-manrope relative overflow-hidden">
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen pointer-events-none"></div>
-
-      <div className="z-10 text-center max-w-4xl px-6">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
-          <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-          <span className="text-sm font-medium tracking-wide text-white/80">
-            v1.0 Now Live
-          </span>
-        </div>
-
-        <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tight mb-6 sm:mb-8 bg-gradient-to-br from-white via-purple-100 to-white/40 bg-clip-text text-transparent leading-tight sm:leading-none">
-          Welcome to
-          <br className="hidden sm:block" /> Hello Loaders
-        </h1>
-
-        <p className="text-lg sm:text-2xl text-white/60 mb-8 sm:mb-12 leading-relaxed max-w-2xl mx-auto px-4 sm:px-0">
-          A premium open-source collection of {loaders.length} handcrafted SVG
-          loading animations from around the world. Elevate your project's first
-          impression.
-        </p>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-white/40 font-medium mb-10 sm:mb-12 bg-white/5 border border-white/10 w-full sm:w-fit mx-auto px-4 py-3 sm:py-2 rounded-2xl sm:rounded-full text-xs sm:text-sm text-center">
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-green-400 shrink-0"
-          >
-            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-          </svg>
-          <span>No npm commands required. Just copy, paste, and run.</span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto px-4 sm:px-0">
-          <Link
-            to="/menu"
-            className="w-full sm:w-auto justify-center px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-purple-50 transition-all shadow-[0_0_30px_rgba(255,255,255,0.15)] hover:shadow-[0_0_50px_rgba(255,255,255,0.3)] hover:-translate-y-1 flex items-center gap-2"
-          >
-            Explore Loaders{" "}
-            <span className="text-xl leading-none transition-transform group-hover:translate-x-1">
-              →
+    <div className="min-h-screen bg-[#fafafa] text-[#171717] font-manrope">
+      <div className="mx-auto flex min-h-screen max-w-7xl flex-col px-5 sm:px-8">
+        <header className="flex h-20 items-center justify-between border-b border-[#e5e5e5]">
+          <Link to="/" className="flex items-center gap-2.5 text-sm font-semibold tracking-tight">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#171717] text-white">
+              <Layers3 size={16} strokeWidth={2.2} />
             </span>
+            Hello Loaders
           </Link>
-          <Link
-            to="/docs"
-            className="w-full sm:w-auto justify-center px-8 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-full hover:bg-white/10 transition-all backdrop-blur-md flex items-center gap-2 hover:-translate-y-1"
-          >
-            Read Docs
+          <nav className="hidden items-center gap-7 text-sm text-[#737373] sm:flex">
+            <Link to="/menu" className="transition-colors hover:text-[#171717]">Directory</Link>
+            <Link to="/docs" className="transition-colors hover:text-[#171717]">Documentation</Link>
+            <a href="https://github.com/vathsavv56" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 transition-colors hover:text-[#171717]">
+              GitHub <ExternalLink size={13} />
+            </a>
+          </nav>
+          <Link to="/menu" className="inline-flex items-center gap-2 rounded-md bg-[#171717] px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#404040]">
+            Browse collection <ArrowRight size={14} />
           </Link>
-        </div>
+        </header>
 
-        <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-          <a
-            href="https://github.com/vathsavv56"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Visit vathsavv56 on GitHub"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white/80 hover:bg-white/10 hover:text-white transition-colors"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="20"
-              height="20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2C6.48 2 2 6.58 2 12.23c0 4.52 2.87 8.35 6.84 9.7.5.1.68-.22.68-.49v-1.91c-2.78.62-3.37-1.2-3.37-1.2-.45-1.18-1.12-1.49-1.12-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.05 1.53 1.05.9 1.58 2.35 1.12 2.93.86.09-.67.35-1.12.63-1.38-2.22-.26-4.55-1.14-4.55-5.08 0-1.12.39-2.04 1.03-2.76-.1-.26-.45-1.31.1-2.72 0 0 .84-.28 2.75 1.05a9.31 9.31 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.46.1 2.72.64.72 1.03 1.64 1.03 2.76 0 3.95-2.33 4.81-4.56 5.07.36.32.67.95.67 1.92v2.84c0 .27.18.6.69.49A10.24 10.24 0 0 0 22 12.23C22 6.58 17.52 2 12 2z" />
-            </svg>
-          </a>
+        <main className="flex flex-1 flex-col justify-center py-16 sm:py-24">
+          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24">
+            <section>
+              <div className="mb-7 inline-flex items-center gap-2 border border-[#d4d4d4] bg-white px-3 py-1.5 text-xs font-medium text-[#525252] shadow-sm">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                Open source / React components
+              </div>
+              <h1 className="max-w-3xl text-5xl font-semibold leading-[1.05] tracking-tight text-[#171717] sm:text-7xl">
+                Loading states,<br />made <span className="text-[#a3a3a3]">human.</span>
+              </h1>
+              <p className="mt-7 max-w-xl text-base leading-7 text-[#737373] sm:text-lg">
+                A carefully curated collection of {loaders.length} handcrafted SVG loaders inspired by languages and cultures from around the world. Copy a component and ship a better first impression.
+              </p>
+              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+                <Link to="/menu" className="inline-flex items-center justify-center gap-2 rounded-md bg-[#171717] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#404040]">
+                  Explore the directory <ArrowRight size={16} />
+                </Link>
+                <Link to="/docs" className="inline-flex items-center justify-center gap-2 rounded-md border border-[#d4d4d4] bg-white px-5 py-3 text-sm font-semibold text-[#404040] transition-colors hover:bg-[#f5f5f5]">
+                  <Code2 size={16} /> Read the docs
+                </Link>
+              </div>
+              <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-[#e5e5e5] pt-5 text-xs text-[#737373]">
+                <span className="inline-flex items-center gap-2"><Check size={14} className="text-emerald-600" /> Pure SVG and CSS</span>
+                <span className="inline-flex items-center gap-2"><Check size={14} className="text-emerald-600" /> No dependencies</span>
+                <span className="inline-flex items-center gap-2"><Check size={14} className="text-emerald-600" /> Copy and paste</span>
+              </div>
+            </section>
 
-          <a
-            href="https://vathsavv56.vercel.app"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white/80 hover:bg-white/10 hover:text-white transition-colors"
-          >
-            Visit Portfolio
-          </a>
-        </div>
+            <section className="relative border border-[#d4d4d4] bg-white p-2 shadow-[0_18px_45px_-28px_rgba(23,23,23,0.45)]">
+              <div className="border border-[#e5e5e5] bg-[#fafafa] p-5 sm:p-7">
+                <div className="flex items-center justify-between border-b border-[#e5e5e5] pb-4">
+                  <div>
+                    <p className="text-sm font-semibold text-[#262626]">Loader directory</p>
+                    <p className="mt-1 text-xs text-[#a3a3a3]">Browse the collection</p>
+                  </div>
+                  <span className="font-jmono text-[11px] text-[#a3a3a3]">{String(loaders.length).padStart(2, "0")} items</span>
+                </div>
+                <div className="mt-4 divide-y divide-[#e5e5e5] border-y border-[#e5e5e5] bg-white">
+                  {loaders.slice(0, 5).map((loader, index) => (
+                    <Link key={loader.path} to={`/${loader.path}`} className="group flex items-center justify-between px-4 py-3.5 transition-colors hover:bg-[#fafafa]">
+                      <span className="flex items-center gap-3 text-sm font-medium text-[#404040]">
+                        <span className="font-jmono text-[10px] text-[#a3a3a3]">0{index + 1}</span>
+                        {loader.name}
+                      </span>
+                      <ArrowRight size={15} className="text-[#a3a3a3] transition-transform group-hover:translate-x-1 group-hover:text-[#171717]" />
+                    </Link>
+                  ))}
+                </div>
+                <Link to="/menu" className="mt-4 inline-flex items-center gap-2 text-xs font-semibold text-[#525252] hover:text-[#171717]">
+                  View all loaders <ArrowRight size={13} />
+                </Link>
+              </div>
+            </section>
+          </div>
+        </main>
+
+        <footer className="flex flex-col gap-3 border-t border-[#e5e5e5] py-5 text-xs text-[#a3a3a3] sm:flex-row sm:items-center sm:justify-between">
+          <span>Built for the moments between states.</span>
+          <a href="https://github.com/vathsavv56" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[#737373] hover:text-[#171717]">Open source on GitHub <ExternalLink size={13} /></a>
+        </footer>
       </div>
     </div>
   );
