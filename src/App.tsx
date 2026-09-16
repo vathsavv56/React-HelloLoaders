@@ -1,6 +1,15 @@
 import { useState, type ReactNode } from "react";
 import { createBrowserRouter, RouterProvider, Link } from "react-router";
-import { ArrowRight, Check, Code2, ExternalLink, Layers3 } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  CheckCheck,
+  Copy,
+  ExternalLink,
+  Layers3,
+  Search,
+} from "lucide-react";
 
 // Dynamically import all loader modules (filtering out standalone text demos)
 const loaderModules = import.meta.glob(
@@ -159,7 +168,6 @@ const Landing = () => {
           </Link>
           <nav className="hidden items-center gap-7 text-sm text-[#737373] sm:flex">
             <Link to="/menu" className="transition-colors hover:text-[#171717]">Directory</Link>
-            <Link to="/docs" className="transition-colors hover:text-[#171717]">Documentation</Link>
             <a href="https://github.com/vathsavv56" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 transition-colors hover:text-[#171717]">
               GitHub <ExternalLink size={13} />
             </a>
@@ -185,9 +193,6 @@ const Landing = () => {
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <Link to="/menu" className="inline-flex items-center justify-center gap-2 rounded-md bg-[#171717] px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#404040]">
                   Explore the directory <ArrowRight size={16} />
-                </Link>
-                <Link to="/docs" className="inline-flex items-center justify-center gap-2 rounded-md border border-[#d4d4d4] bg-white px-5 py-3 text-sm font-semibold text-[#404040] transition-colors hover:bg-[#f5f5f5]">
-                  <Code2 size={16} /> Read the docs
                 </Link>
               </div>
               <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 border-t border-[#e5e5e5] pt-5 text-xs text-[#737373]">
@@ -234,179 +239,64 @@ const Landing = () => {
   );
 };
 
-const Docs = () => {
-  return (
-    <div className="min-h-screen bg-[#08060d] text-white p-6 sm:p-12 font-manrope selection:bg-white/20">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-12 border-b border-white/10 pb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight mb-2">
-              Documentation
-            </h1>
-            <p className="text-white/60">
-              How to integrate Hello Loaders into your projects.
-            </p>
-          </div>
-          <Link
-            to="/"
-            className="px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white/70 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium"
-          >
-            <span>←</span> Back Home
-          </Link>
-        </header>
-
-        <section className="space-y-12 pb-24">
-          <div>
-            <h2 className="text-2xl font-semibold mb-6 text-purple-200 flex items-center gap-3">
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-500/20 text-purple-300 text-sm">
-                1
-              </span>
-              Quick Start
-            </h2>
-            <div className="p-8 bg-white/5 border border-white/10 rounded-2xl shadow-xl">
-              <p className="text-white/70 mb-6 leading-relaxed">
-                Our loaders are plug-and-play components using React and pure
-                Tailwind CSS. There are zero external animation libraries to
-                maintain.
-              </p>
-              <div className="bg-[#0f0c16] rounded-xl p-4 border border-white/5 overflow-x-auto">
-                <code className="text-sm font-jmono text-purple-200">
-                  <span className="text-white/40">
-                    # 1. Ensure you have React and Tailwind CSS v4 setup.
-                  </span>
-                  <br />
-                  <br />
-                  <span className="text-white/40">
-                    # 2. Copy the desired loader from `src/loaders/*.tsx`
-                  </span>
-                  <br />
-                  <span className="text-white/40">
-                    # into your project's components directory.
-                  </span>
-                  <br />
-                  <br />
-                  <span className="text-white/40">
-                    # 3. Import and use it directly
-                  </span>
-                  <br />
-                  <span className="text-pink-400">import</span>
-                  {" { EnglishLoader } "}
-                  <span className="text-pink-400">from</span>{" "}
-                  <span className="text-green-300">
-                    "./components/EnglishLoader"
-                  </span>
-                  ;<br />
-                  <br />
-                  <span className="text-blue-400">function</span>{" "}
-                  <span className="text-yellow-200">App</span>() {"{"}
-                  <br />
-                  {"  "}
-                  <span className="text-pink-400">return</span> {"<"}
-                  <span className="text-purple-300">EnglishLoader</span> {"/>;"}
-                  <br />
-                  {"}"}
-                </code>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-2xl font-semibold mb-6 text-purple-200 flex items-center gap-3">
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-500/20 text-purple-300 text-sm">
-                2
-              </span>
-              Dependencies
-            </h2>
-            <div className="p-8 bg-white/5 border border-white/10 rounded-2xl shadow-xl">
-              <ul className="space-y-6 text-white/70">
-                <li className="flex items-start gap-4">
-                  <div className="mt-1.5 w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.8)]"></div>
-                  <div>
-                    <strong className="text-white block font-medium mb-1 text-lg">
-                      React
-                    </strong>
-                    <p className="text-sm leading-relaxed">
-                      Built for React 18+ environments using native hooks (
-                      <code>useState</code>, <code>useEffect</code>,{" "}
-                      <code>useRef</code>).
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="mt-1.5 w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.8)]"></div>
-                  <div>
-                    <strong className="text-white block font-medium mb-1 text-lg">
-                      Tailwind CSS
-                    </strong>
-                    <p className="text-sm leading-relaxed">
-                      Styled entirely with utility classes. Built and tested
-                      with Tailwind v4, but backwards compatible directly with
-                      Tailwind v3.
-                    </p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-4">
-                  <div className="mt-1.5 w-2 h-2 rounded-full bg-purple-400 shadow-[0_0_8px_rgba(192,132,252,0.8)]"></div>
-                  <div>
-                    <strong className="text-white block font-medium mb-1 text-lg">
-                      Zero Animation Libraries
-                    </strong>
-                    <p className="text-sm leading-relaxed">
-                      No <code>framer-motion</code>, <code>gsap</code>, or other
-                      bloated animation libraries needed. All animations use
-                      vanilla CSS keyframes and{" "}
-                      <code>requestAnimationFrame</code> for maximum performance
-                      and minimum bundle size.
-                    </p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
-};
+const AppHeader = () => (
+  <header className="flex min-h-20 items-center justify-between border-b border-[#e5e5e5]">
+    <Link to="/" className="flex items-center gap-2.5 text-sm font-semibold tracking-tight text-[#171717]">
+      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#171717] text-white">
+        <Layers3 size={16} strokeWidth={2.2} />
+      </span>
+      Hello Loaders
+    </Link>
+    <nav className="hidden items-center gap-7 text-sm text-[#737373] sm:flex">
+      <Link to="/menu" className="font-medium text-[#171717]">Directory</Link>
+      <a href="https://github.com/vathsavv56" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 transition-colors hover:text-[#171717]">
+        GitHub <ExternalLink size={13} />
+      </a>
+    </nav>
+    <Link to="/menu" className="inline-flex items-center gap-2 rounded-md border border-[#d4d4d4] bg-white px-3.5 py-2 text-xs font-semibold text-[#404040] transition-colors hover:border-[#171717] hover:text-[#171717]">
+      Browse collection <ArrowRight size={14} />
+    </Link>
+  </header>
+);
 
 const Menu = () => {
-  return (
-    <div className="min-h-screen bg-[#08060d] text-white p-6 sm:p-12 font-manrope selection:bg-white/20">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6">
-          <div>
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium mb-6"
-            >
-              <span>←</span> Back Home
-            </Link>
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 text-white">
-              Loaders Directory
-            </h1>
-            <p className="text-white/60 text-lg max-w-2xl">
-              Select any language below to preview its unique handwritten SVG
-              animation completely live.
-            </p>
-          </div>
-        </header>
+  const [query, setQuery] = useState("");
+  const filteredLoaders = loaders.filter((loader) =>
+    loader.name.toLowerCase().includes(query.toLowerCase()),
+  );
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-24">
-          {loaders.map((loader) => (
-            <Link
-              key={loader.path}
-              to={`/${loader.path}`}
-              className="px-5 py-4 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-white/20 hover:-translate-y-0.5 transition-all flex items-center justify-between group"
-            >
-              <span className="font-medium text-white/80 group-hover:text-white transition-colors">
-                {loader.name}
-              </span>
-              <span className="text-white/30 group-hover:text-white/70 transition-colors">
-                →
-              </span>
-            </Link>
-          ))}
-        </div>
+  return (
+    <div className="min-h-screen bg-[#fafafa] font-manrope text-[#171717]">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <AppHeader />
+        <main className="py-12 sm:py-16">
+          <div className="flex flex-col justify-between gap-8 border-b border-[#e5e5e5] pb-10 sm:flex-row sm:items-end">
+            <div>
+              <Link to="/" className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-[#737373] transition-colors hover:text-[#171717]">
+                <ArrowLeft size={15} /> Back home
+              </Link>
+              <p className="mb-3 font-jmono text-[11px] uppercase tracking-[0.18em] text-[#a3a3a3]">Collection / {loaders.length} components</p>
+              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Loader directory</h1>
+              <p className="mt-4 max-w-xl text-base leading-7 text-[#737373]">Explore handcrafted SVG loading states, each ready to preview and copy into a React project.</p>
+            </div>
+            <label className="flex w-full items-center gap-3 border border-[#d4d4d4] bg-white px-3.5 py-3 text-sm text-[#737373] shadow-sm sm:max-w-xs">
+              <Search size={16} className="shrink-0 text-[#a3a3a3]" />
+              <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Find a language" className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-[#a3a3a3]" />
+            </label>
+          </div>
+          <div className="grid grid-cols-1 gap-px overflow-hidden border border-[#e5e5e5] bg-[#e5e5e5] sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredLoaders.map((loader, index) => (
+              <Link key={loader.path} to={`/${loader.path}`} className="group flex min-h-28 items-center justify-between bg-white px-5 py-4 transition-colors hover:bg-[#f5f5f5]">
+                <span className="flex items-center gap-3 text-sm font-semibold text-[#404040]">
+                  <span className="font-jmono text-[10px] font-normal text-[#a3a3a3]">{String(index + 1).padStart(2, "0")}</span>
+                  {loader.name}
+                </span>
+                <ArrowRight size={16} className="text-[#a3a3a3] transition-transform group-hover:translate-x-1 group-hover:text-[#171717]" />
+              </Link>
+            ))}
+          </div>
+          {filteredLoaders.length === 0 && <p className="py-16 text-center text-sm text-[#737373]">No loaders match “{query}”.</p>}
+        </main>
       </div>
     </div>
   );
@@ -414,44 +304,52 @@ const Menu = () => {
 
 const LoaderShowcase = ({ loader }: { loader: (typeof loaders)[0] }) => {
   const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
+  const [copied, setCopied] = useState(false);
+
+  const copyCode = async () => {
+    await navigator.clipboard.writeText(loader.code);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  };
 
   return (
-    <div className="min-h-screen bg-[#08060d] text-white p-6 sm:p-12 font-manrope selection:bg-white/20">
-      <div className="max-w-5xl mx-auto space-y-8">
+    <div className="min-h-screen bg-[#fafafa] font-manrope text-[#171717] selection:bg-[#d4d4d4]">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+        <AppHeader />
+        <main className="space-y-8 py-12 sm:py-16">
         {/* Showcase Header */}
-        <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 pb-6 border-b border-white/10">
+        <header className="flex flex-col justify-between gap-8 border-b border-[#e5e5e5] pb-8 sm:flex-row sm:items-end">
           <div className="space-y-4">
             <Link
               to="/menu"
-              className="inline-flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium"
+              className="inline-flex items-center gap-2 text-sm font-medium text-[#737373] transition-colors hover:text-[#171717]"
             >
-              <span>←</span> Back to Directory
+              <ArrowLeft size={15} /> Back to directory
             </Link>
-            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            <p className="font-jmono text-[11px] uppercase tracking-[0.18em] text-[#a3a3a3]">Component preview</p>
+            <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
               {loader.name} Loader
             </h1>
-            <p className="text-white/60">
-              A pristine handwritten SVG loading animation component.
-            </p>
+            <p className="text-[#737373]">A handwritten SVG loading animation, ready to copy into your project.</p>
           </div>
 
-          <div className="flex bg-white/5 p-1 rounded-lg border border-white/10 mt-4 sm:mt-0">
+          <div className="mt-4 flex w-fit border border-[#d4d4d4] bg-white p-1 shadow-sm sm:mt-0">
             <button
               onClick={() => setActiveTab("preview")}
-              className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+              className={`px-5 py-2 text-sm font-semibold transition-all ${
                 activeTab === "preview"
-                  ? "bg-white/10 text-white shadow-sm"
-                  : "text-white/50 hover:text-white hover:bg-white/5"
+                  ? "bg-[#171717] text-white"
+                  : "text-[#737373] hover:text-[#171717]"
               }`}
             >
               Preview
             </button>
             <button
               onClick={() => setActiveTab("code")}
-              className={`px-6 py-2 text-sm font-medium rounded-md transition-all ${
+              className={`px-5 py-2 text-sm font-semibold transition-all ${
                 activeTab === "code"
-                  ? "bg-white/10 text-white shadow-sm"
-                  : "text-white/50 hover:text-white hover:bg-white/5"
+                  ? "bg-[#171717] text-white"
+                  : "text-[#737373] hover:text-[#171717]"
               }`}
             >
               Code
@@ -460,42 +358,24 @@ const LoaderShowcase = ({ loader }: { loader: (typeof loaders)[0] }) => {
         </header>
 
         {/* Live Preview / Code Box */}
-        <div className="bg-[#0f0c16] border border-white/10 rounded-2xl overflow-hidden shadow-2xl relative h-[600px]">
+        <div className="relative h-[520px] overflow-hidden border border-[#d4d4d4] bg-white shadow-[0_18px_45px_-28px_rgba(23,23,23,0.45)] sm:h-[600px]">
           {activeTab === "preview" ? (
-            <div className="h-full w-full absolute inset-0 [&>div]:!h-full [&>div]:!w-full [&>div]:!bg-transparent [&>div]:!m-0 [&>div]:!p-0 [&>div]:!min-h-0">
+            <div className="absolute inset-0 h-full w-full [&>div]:!m-0 [&>div]:!min-h-0 [&>div]:!h-full [&>div]:!w-full [&>div]:!bg-black">
               <loader.Component />
             </div>
           ) : (
-            <div className="h-full w-full absolute inset-0 overflow-y-auto overflow-x-auto bg-[#1e1e1e] scrollbar-thin scrollbar-thumb-white/10">
-              <div className="sticky top-0 right-0 w-full flex justify-end p-4 bg-gradient-to-b from-[#1e1e1e] to-transparent z-10 pointer-events-none">
+            <div className="absolute inset-0 h-full w-full overflow-y-auto overflow-x-auto bg-[#20201f] scrollbar-thin scrollbar-thumb-white/10">
+              <div className="pointer-events-none sticky right-0 top-0 z-10 flex w-full justify-end bg-gradient-to-b from-[#20201f] to-transparent p-4">
                 <button
-                  className="pointer-events-auto px-4 py-2 bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center gap-2 rounded-lg text-xs font-jmono border border-white/10 backdrop-blur-md shadow-xl"
-                  onClick={() => navigator.clipboard.writeText(loader.code)}
+                  className="pointer-events-auto inline-flex items-center gap-2 border border-white/15 bg-white/10 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-white/20"
+                  onClick={copyCode}
                 >
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <rect
-                      x="9"
-                      y="9"
-                      width="13"
-                      height="13"
-                      rx="2"
-                      ry="2"
-                    ></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
+                  {copied ? <CheckCheck size={14} /> : <Copy size={14} />}
+                  {copied ? "Copied" : "Copy code"}
                   Copy Code
                 </button>
               </div>
-              <pre className="m-0 px-8 pb-8 pt-4 bg-transparent text-[0.875rem] leading-[1.5] font-jmono text-white/80 whitespace-pre">
+              <pre className="m-0 whitespace-pre bg-transparent px-5 pb-8 pt-4 font-jmono text-[0.8rem] leading-[1.6] text-white/80 sm:px-8 sm:text-[0.875rem]">
                 <code className="block">
                   {loader.code.split("\n").map((line, lineIndex) => (
                     <span
@@ -512,29 +392,29 @@ const LoaderShowcase = ({ loader }: { loader: (typeof loaders)[0] }) => {
         </div>
 
         {/* Info Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-          <div className="p-6 bg-white/5 border border-white/10 rounded-xl space-y-2">
-            <p className="text-white/40 text-sm font-medium">Component Path</p>
-            <p className="text-purple-200 font-jmono text-sm break-all">
+        <div className="grid grid-cols-1 gap-px overflow-hidden border border-[#e5e5e5] bg-[#e5e5e5] sm:grid-cols-2">
+          <div className="space-y-2 bg-white p-6">
+            <p className="text-sm font-medium text-[#737373]">Component path</p>
+            <p className="break-all font-jmono text-sm text-[#404040]">
               src/loaders/{loader.id}.tsx
             </p>
           </div>
-          <div className="p-6 bg-white/5 border border-white/10 rounded-xl space-y-3">
-            <p className="text-white/40 text-sm font-medium">Dependencies</p>
+          <div className="space-y-3 bg-white p-6">
+            <p className="text-sm font-medium text-[#737373]">Dependencies</p>
             <div className="flex flex-wrap gap-2">
-              <span className="px-2.5 py-1 bg-blue-500/10 text-blue-300 rounded-md text-xs font-jmono border border-blue-500/20 shadow-sm">
+              <span className="border border-[#d4d4d4] bg-[#fafafa] px-2.5 py-1 font-jmono text-xs text-[#404040]">
                 react
               </span>
-              <span className="px-2.5 py-1 bg-cyan-500/10 text-cyan-300 rounded-md text-xs font-jmono border border-cyan-500/20 shadow-sm">
+              <span className="border border-[#d4d4d4] bg-[#fafafa] px-2.5 py-1 font-jmono text-xs text-[#404040]">
                 tailwindcss
               </span>
             </div>
-            <p className="text-white/40 text-xs mt-3 border-t border-white/5 pt-3 leading-relaxed">
-              Plug and play. Zero external animation libraries (no
-              framer-motion/gsap).
+            <p className="mt-3 border-t border-[#e5e5e5] pt-3 text-xs leading-relaxed text-[#737373]">
+              Plug and play with no external animation libraries.
             </p>
           </div>
         </div>
+        </main>
       </div>
     </div>
   );
@@ -549,10 +429,6 @@ const router = createBrowserRouter([
   {
     path: "/menu",
     element: <Menu />,
-  },
-  {
-    path: "/docs",
-    element: <Docs />,
   },
   ...loaders.map((loader) => ({
     path: `/${loader.path}`,
