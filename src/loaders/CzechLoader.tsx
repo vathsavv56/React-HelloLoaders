@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const CzechLoader = () => {
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const [progress, setProgress] = useState(0);
-
   useEffect(() => {
     if (!svgRef.current) return;
 

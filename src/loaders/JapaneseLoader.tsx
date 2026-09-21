@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const JapaneseLoader = () => {
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const [progress, setProgress] = useState(0);
-
   useEffect(() => {
     if (!svgRef.current) return;
 
@@ -30,63 +28,6 @@ const JapaneseLoader = () => {
       path.style.animation = `drawLine ${strokeDuration}s cubic-bezier(0.65, 0, 0.35, 1) forwards ${delay}s`;
     });
   }, []);
-
-  useEffect(() => {
-    const totalDuration = 6000;
-    const startedAt = performance.now();
-    let frameId = 0;
-
-    const pause1At = Math.floor(Math.random() * 26) + 20;
-    const pause2At = Math.floor(Math.random() * 21) + 60;
-    const pause1Duration = Math.floor(Math.random() * 401) + 300;
-    const pause2Duration = Math.floor(Math.random() * 401) + 300;
-    const movingDuration = totalDuration - pause1Duration - pause2Duration;
-    const move1Duration = movingDuration * (pause1At / 100);
-    const move2Duration = movingDuration * ((pause2At - pause1At) / 100);
-    const move3Duration = movingDuration * ((100 - pause2At) / 100);
-
-    const move1End = move1Duration;
-    const pause1End = move1End + pause1Duration;
-    const move2End = pause1End + move2Duration;
-    const pause2End = move2End + pause2Duration;
-    const move3End = pause2End + move3Duration;
-
-    const updateProgress = (now: number) => {
-      const elapsed = now - startedAt;
-      let nextProgress = 0;
-
-      if (elapsed <= move1End) {
-        const t = move1Duration === 0 ? 1 : elapsed / move1Duration;
-        nextProgress = pause1At * t;
-      } else if (elapsed <= pause1End) {
-        nextProgress = pause1At;
-      } else if (elapsed <= move2End) {
-        const t =
-          move2Duration === 0 ? 1 : (elapsed - pause1End) / move2Duration;
-        nextProgress = pause1At + (pause2At - pause1At) * t;
-      } else if (elapsed <= pause2End) {
-        nextProgress = pause2At;
-      } else if (elapsed <= move3End) {
-        const t =
-          move3Duration === 0 ? 1 : (elapsed - pause2End) / move3Duration;
-        nextProgress = pause2At + (100 - pause2At) * t;
-      } else {
-        nextProgress = 100;
-      }
-
-      const roundedProgress = Math.min(100, Math.round(nextProgress));
-
-      setProgress(roundedProgress);
-
-      if (elapsed < totalDuration) {
-        frameId = requestAnimationFrame(updateProgress);
-      }
-    };
-
-    frameId = requestAnimationFrame(updateProgress);
-    return () => cancelAnimationFrame(frameId);
-  }, []);
-
   return (
     <div className="w-full h-screen bg-black flex justify-center items-center overflow-hidden m-0 p-0">
       <style>

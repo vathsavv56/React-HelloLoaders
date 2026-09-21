@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const ChineseHongKongLoader = () => {
   const svgRef = useRef<SVGSVGElement | null>(null);
-  const [progress, setProgress] = useState(0);
-
   useEffect(() => {
     if (!svgRef.current) return;
 
@@ -30,63 +28,6 @@ const ChineseHongKongLoader = () => {
       path.style.animation = `drawLine ${strokeDuration}s cubic-bezier(0.65, 0, 0.35, 1) forwards ${delay}s`;
     });
   }, []);
-
-  useEffect(() => {
-    const totalDuration = 6000;
-    const startedAt = performance.now();
-    let frameId = 0;
-
-    const pause1At = Math.floor(Math.random() * 26) + 20;
-    const pause2At = Math.floor(Math.random() * 21) + 60;
-    const pause1Duration = Math.floor(Math.random() * 401) + 300;
-    const pause2Duration = Math.floor(Math.random() * 401) + 300;
-    const movingDuration = totalDuration - pause1Duration - pause2Duration;
-    const move1Duration = movingDuration * (pause1At / 100);
-    const move2Duration = movingDuration * ((pause2At - pause1At) / 100);
-    const move3Duration = movingDuration * ((100 - pause2At) / 100);
-
-    const move1End = move1Duration;
-    const pause1End = move1End + pause1Duration;
-    const move2End = pause1End + move2Duration;
-    const pause2End = move2End + pause2Duration;
-    const move3End = pause2End + move3Duration;
-
-    const updateProgress = (now: number) => {
-      const elapsed = now - startedAt;
-      let nextProgress = 0;
-
-      if (elapsed <= move1End) {
-        const t = move1Duration === 0 ? 1 : elapsed / move1Duration;
-        nextProgress = pause1At * t;
-      } else if (elapsed <= pause1End) {
-        nextProgress = pause1At;
-      } else if (elapsed <= move2End) {
-        const t =
-          move2Duration === 0 ? 1 : (elapsed - pause1End) / move2Duration;
-        nextProgress = pause1At + (pause2At - pause1At) * t;
-      } else if (elapsed <= pause2End) {
-        nextProgress = pause2At;
-      } else if (elapsed <= move3End) {
-        const t =
-          move3Duration === 0 ? 1 : (elapsed - pause2End) / move3Duration;
-        nextProgress = pause2At + (100 - pause2At) * t;
-      } else {
-        nextProgress = 100;
-      }
-
-      const roundedProgress = Math.min(100, Math.round(nextProgress));
-
-      setProgress(roundedProgress);
-
-      if (elapsed < totalDuration) {
-        frameId = requestAnimationFrame(updateProgress);
-      }
-    };
-
-    frameId = requestAnimationFrame(updateProgress);
-    return () => cancelAnimationFrame(frameId);
-  }, []);
-
   return (
     <div className="w-full h-screen bg-black flex justify-center items-center overflow-hidden m-0 p-0">
       <style>
@@ -129,23 +70,7 @@ const ChineseHongKongLoader = () => {
           <path d="M458.458 86.55C410.957 106.584 354.845 133.729 312.852 165.272" stroke="white" strokeWidth="14.8883" strokeLinecap="round"/>
           <path d="M424.573 151.545C399.944 159.076 376.201 164.084 352.952 167.077" stroke="white" strokeWidth="14.8883" strokeLinecap="round"/>
           <path d="M355.902 124.559C352.863 138.56 351.836 153.531 352.292 167.117C353.182 193.606 366.121 207.47 393.481 208.455C423.305 209.529 441.98 197.68 448.921 182.906" stroke="white" strokeWidth="14.8883" strokeLinecap="round"/>
-        </svg>
-
-        <div className="w-full max-w-140">
-          <div className="w-full flex justify-end mb-2 sm:mb-3">
-            <span className="text-white text-lg sm:text-xl font-grosek tabular-nums">
-              {progress}%
-            </span>
-          </div>
-
-          <div className="h-1 sm:h-1.25 w-full bg-white/20 overflow-hidden rounded-full">
-            <div
-              className="h-full bg-white transition-[width] duration-100 ease-out"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
-      </div>
+        </svg>      </div>
     </div>
   );
 };
