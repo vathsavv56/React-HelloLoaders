@@ -26,17 +26,17 @@ const UkrainianLoader = () => {
 
       const delay = index * (strokeDuration + strokeGap);
 
-      path.style.animation = "drawLine " + strokeDuration + "s cubic-bezier(0.65, 0, 0.35, 1) forwards " + delay + "s";
+      path.style.animation = "hl-draw " + strokeDuration + "s cubic-bezier(0.65, 0, 0.35, 1) forwards " + delay + "s";
     });
   }, []);
   return (
-    <div className="w-full h-screen bg-black flex justify-center items-center overflow-hidden m-0 p-0">
-      <style dangerouslySetInnerHTML={{ __html: "@keyframes drawLine { 0% { opacity: 0; } 1% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } } path { stroke-linecap: round; stroke-linejoin: round; fill: none; }" }} />
+    <div className="w-full h-screen bg-black flex justify-center items-center overflow-hidden m-0 p-0 hl-loader">
+      <style dangerouslySetInnerHTML={{ __html: "@keyframes hl-draw { 0% { opacity: 0; } 1% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } } .hl-loader path { stroke-linecap: round; stroke-linejoin: round; fill: none; }" }} />
 
       <div className="w-[92%] sm:w-[84%] max-w-275 flex flex-col justify-center items-center gap-2 sm:gap-3 px-2 sm:px-0 -translate-y-6 sm:-translate-y-8">
         <svg
           ref={svgRef}
-          className="w-full max-w-[320px] sm:max-w-[500px] md:max-w-[600px] h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
+          className="w-full min-w-70 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
           viewBox="0 0 899 264"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -55,20 +55,6 @@ const UkrainianLoader = () => {
           <path d="M771.671 166.999C778.633 123.793 795.348 97.1763 819.646 97.1763C836.32 97.1763 844.658 111.072 842.752 127.946C841.561 139.856 837.512 154 836.797 165.663C835.606 182.784 844.075 194.447 857.998 194.447C875.513 194.447 886.273 182.05 891.185 168.483" stroke="white" strokeWidth="14.8883" strokeLinecap="round"/>
         </svg>
 
-        <div className="w-full max-w-140">
-          <div className="w-full flex justify-end mb-2 sm:mb-3">
-            <span className="text-white text-sm sm:text-base font-grosek tabular-nums">
-              {progress}%
-            </span>
-          </div>
-
-          <div className="h-1 sm:h-1.25 w-full bg-white/20 overflow-hidden rounded-full">
-            <div
-              className="h-full bg-white transition-[width] duration-100 ease-out"
-              style={{ width: progress + "%" }}
-            />
-          </div>
-        </div>
       </div>
     </div>
   );

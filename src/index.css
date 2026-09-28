@@ -1,13 +1,75 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap');
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap");
 
 @import "tailwindcss";
 
-
 @theme {
-    --font-jmono: "JetBrains Mono", monospace;
-    --font-grosek: "Hanken Grotesk", sans-serif;
-    --font-manrope: "Sora", "Manrope", "Inter", "Segoe UI", sans-serif;
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
+  /* Neutral paper-to-ink scale. The loaders are the only saturated thing
+     on the page, so the chrome stays strictly greyscale. */
+  --color-paper: #fafaf9;
+  --color-panel: #ffffff;
+  --color-ink: #171717;
+  --color-ink-2: #4d4d4d;
+  --color-ink-3: #828282;
+  --color-ink-4: #aeaeae;
+  --color-line: #e5e5e3;
+  --color-line-soft: #efefed;
+  --color-stage: #0b0b0b;
+
+  /* Low-chroma syntax palette. Three hues plus neutrals, on true black —
+     the previous bright pink/green/purple/blue set on #20201f was the
+     loudest thing on the page. */
+  --color-code-base: #c9c9c7;
+  --color-code-comment: #6a6a68;
+  --color-code-string: #a3c9a0;
+  --color-code-keyword: #8ab4d8;
+  --color-code-tag: #e8e8e6;
+  --color-code-number: #c9a97a;
+  --color-code-punct: #7a7a78;
+}
+
+/* Each loader ships with `h-screen` and `bg-black` so it looks correct when
+   dropped into a standalone page. Inside a panel we let it fill the panel
+   instead of the viewport, which beats `.h-screen` on specificity and avoids
+   the stack of `!important` overrides this used to need. */
+.specimen > .hl-loader {
+  height: 100%;
+}
+
+/* Thumbnails are short, so the loaders' own full-screen optical nudge would
+   push the lettering well above centre. */
+.specimen-thumb .hl-loader > div {
+  translate: none;
+}
+
+/* Every loader carries a `min-w-70` floor so it stays legible on its own.
+   That floor is wider than a small gallery tile, so drop it there and let the
+   svg simply fill whatever box it is given. */
+.specimen-thumb .hl-loader svg {
+  min-width: 0;
+}
+
+/* `scrollbar-thin` / `scrollbar-thumb-*` are not in Tailwind v4 core. */
+.scroll-quiet {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink-4) transparent;
+}
+.scroll-quiet::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.scroll-quiet::-webkit-scrollbar-thumb {
+  background-color: var(--color-ink-4);
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.scroll-quiet::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::selection {
+  background-color: #171717;
+  color: #fafaf9;
 }

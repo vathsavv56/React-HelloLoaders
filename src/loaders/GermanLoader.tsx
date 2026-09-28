@@ -27,70 +27,18 @@ const GermanLoader = () => {
       void path.getBoundingClientRect();
 
       const delay = index * (strokeDuration + strokeGap);
-      path.style.animation = "drawLine " + strokeDuration + "s cubic-bezier(0.65, 0, 0.35, 1) forwards " + delay + "s";
+      path.style.animation = "hl-draw " + strokeDuration + "s cubic-bezier(0.65, 0, 0.35, 1) forwards " + delay + "s";
     });
   }, []);
 
-  useEffect(() => {
-    const totalDuration = 6000;
-    const startedAt = performance.now();
-    let frameId = 0;
-
-    const pause1At = Math.floor(Math.random() * 26) + 20;
-    const pause2At = Math.floor(Math.random() * 21) + 60;
-    const pause1Duration = Math.floor(Math.random() * 401) + 300;
-    const pause2Duration = Math.floor(Math.random() * 401) + 300;
-    const movingDuration = totalDuration - pause1Duration - pause2Duration;
-    const move1Duration = movingDuration * (pause1At / 100);
-    const move2Duration = movingDuration * ((pause2At - pause1At) / 100);
-    const move3Duration = movingDuration * ((100 - pause2At) / 100);
-
-    const move1End = move1Duration;
-    const pause1End = move1End + pause1Duration;
-    const move2End = pause1End + move2Duration;
-    const pause2End = move2End + pause2Duration;
-    const move3End = pause2End + move3Duration;
-
-    const updateProgress = (now: number) => {
-      const elapsed = now - startedAt;
-      let nextProgress = 0;
-
-      if (elapsed <= move1End) {
-        const t = move1Duration === 0 ? 1 : elapsed / move1Duration;
-        nextProgress = pause1At * t;
-      } else if (elapsed <= pause1End) {
-        nextProgress = pause1At;
-      } else if (elapsed <= move2End) {
-        const t = move2Duration === 0 ? 1 : (elapsed - pause1End) / move2Duration;
-        nextProgress = pause1At + (pause2At - pause1At) * t;
-      } else if (elapsed <= pause2End) {
-        nextProgress = pause2At;
-      } else if (elapsed <= move3End) {
-        const t = move3Duration === 0 ? 1 : (elapsed - pause2End) / move3Duration;
-        nextProgress = pause2At + (100 - pause2At) * t;
-      } else {
-        nextProgress = 100;
-      }
-
-      setProgress(Math.min(100, Math.round(nextProgress)));
-
-      if (elapsed < totalDuration) {
-        frameId = requestAnimationFrame(updateProgress);
-      }
-    };
-
-    frameId = requestAnimationFrame(updateProgress);
-    return () => cancelAnimationFrame(frameId);
-  }, []);
-
   return (
-    <div className="w-full h-screen bg-black flex justify-center items-center overflow-hidden m-0 p-0 relative">
-      <style dangerouslySetInnerHTML={{ __html: "@keyframes drawLine { 0% { opacity: 0; } 1% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } } path { stroke-linecap: round; stroke-linejoin: round; fill: none; }" }} />
+    <div className="w-full h-screen bg-black flex justify-center items-center overflow-hidden m-0 p-0 hl-loader">
+      <style dangerouslySetInnerHTML={{ __html: "@keyframes hl-draw { 0% { opacity: 0; } 1% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } } .hl-loader path { stroke-linecap: round; stroke-linejoin: round; fill: none; }" }} />
 
       <div className="w-[92%] sm:w-[84%] max-w-275 flex flex-col justify-center items-center gap-2 sm:gap-3 px-2 sm:px-0 -translate-y-6 sm:-translate-y-8">
         <svg
           ref={svgRef}
-          className="w-full max-w-[320px] sm:max-w-[500px] md:max-w-[600px] h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
+          className="w-full min-w-70 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
           viewBox="0 0 668 200"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -101,20 +49,6 @@ const GermanLoader = () => {
           <path d="M269.641 96.0685C268.616 102.571 267.591 109.073 266.567 115.576C262.085 144.016 260.018 155.236 260.24 162.57C260.758 179.691 266.916 191.354 286.403 191.354C320.182 191.354 366.759 134.555 389.169 75.5678C395.646 58.5186 398.118 42.4121 398.118 31.1568C398.118 17.8113 393.9 7.56384 381.989 7.56384C370.326 7.56384 362.634 16.6197 355.686 30.9185C347.546 47.5023 341.524 71.4218 339.061 98.4605C332.857 166.307 346.753 191.354 379.793 191.354C419.857 191.354 464.4 135.54 487.143 75.6742C493.661 58.5186 496.133 42.4121 496.133 31.1568C496.133 17.8113 491.914 7.56384 480.004 7.56384C468.341 7.56384 460.649 16.6197 453.701 30.9185C445.561 47.5023 439.539 71.4218 437.076 98.4605C430.872 166.307 444.768 191.354 474.273 191.354C503.732 191.354 519.735 165.675 529.329 138.408C538.813 111.453 550.475 94.8278 574.793 94.8278C594.892 94.8278 610.773 109.716 610.773 137.756C610.773 168.773 590.649 192.098 565.219 192.346C542.841 192.594 528.143 174.48 529.632 147.185C531.369 116.912 549.731 94.8278 573.8 94.8278C587.696 94.8278 599.367 101.005 608.54 107.731C633.407 125.872 652.567 114.661 659.905 96.7242" stroke="white" strokeWidth="14.8883" strokeLinecap="round"/>
         </svg>
 
-        <div className="w-full max-w-140">
-          <div className="w-full flex justify-end mb-2 sm:mb-3">
-            <span className="text-white text-sm sm:text-base font-sans tabular-nums font-bold tracking-wider">
-              {progress}%
-            </span>
-          </div>
-
-          <div className="h-1 sm:h-1.5 w-full bg-white/20 overflow-hidden rounded-full">
-            <div
-              className="h-full bg-white transition-[width] duration-100 ease-out"
-              style={{ width: progress + "%" }}
-            />
-          </div>
-        </div>
       </div>
     </div>
   );

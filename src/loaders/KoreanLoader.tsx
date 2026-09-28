@@ -26,7 +26,7 @@ const KoreanLoader = () => {
       const delay = index * (strokeDuration + strokeGap);
 
       path.style.animation =
-        "drawLine " +
+        "hl-draw " +
         strokeDuration +
         "s cubic-bezier(0.65, 0, 0.35, 1) forwards " +
         delay +
@@ -34,15 +34,15 @@ const KoreanLoader = () => {
     });
   }, []);
   return (
-    <div className="w-full h-screen bg-black flex justify-center items-center overflow-hidden m-0 p-0">
+    <div className="w-full h-screen bg-black flex justify-center items-center overflow-hidden m-0 p-0 hl-loader">
       <style>
         {`
-          @keyframes drawLine {
+          @keyframes hl-draw {
             0% { opacity: 0; }
             1% { opacity: 1; }
             100% { stroke-dashoffset: 0; opacity: 1; }
           }
-          path {
+          .hl-loader path {
             stroke-linecap: round;
             stroke-linejoin: round;
             fill: none;
@@ -53,7 +53,7 @@ const KoreanLoader = () => {
       <div className="w-[92%] sm:w-[84%] max-w-275 flex flex-col justify-center items-center gap-2 sm:gap-3 px-2 sm:px-0 -translate-y-6 sm:-translate-y-8">
         <svg
           ref={svgRef}
-          className="w-full max-w-[320px] sm:max-w-125 md:max-w-150 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
+          className="w-full min-w-70 h-auto drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
           viewBox="0 0 1138 264"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
